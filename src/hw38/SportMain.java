@@ -27,7 +27,11 @@ public class SportMain {
         Arrays.sort(sportsmen, new Comparator<Sportsman>() {
             @Override
             public int compare(Sportsman s1, Sportsman s2) {
-                return s1.getAge() - s2.getAge();
+
+                //return s1.getAge() - s2.getAge();
+                return  Integer.compare(s1.getAge(), s2.getAge());
+                //сравнение примитивов. может произойти переполнение типа
+                // - некорект выполнение операции  вычитание
             }
         });
         System.out.println(Arrays.toString(sportsmen));
