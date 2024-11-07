@@ -17,9 +17,9 @@ public class Task1 {
 
     public static List<String> wordsList(String phrase ){
 
-        String testPhrase = phrase.replaceAll("[^ a-zA-Z0-9a-яА-Я]", " ");
+        String testPhrase = phrase.replaceAll("[^ a-zA-Z0-9a-яА-Я]", "");
 
-        String[] arrayWords = testPhrase.split(" ");
+        String[] arrayWords = testPhrase.split(" ");//   \\s+
         System.out.println("arrayWords: " + arrayWords);
 
         Comparator<String> wordLengthComp = new Comparator<String>() {

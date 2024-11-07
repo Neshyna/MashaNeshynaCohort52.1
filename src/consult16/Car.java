@@ -1,4 +1,4 @@
-package consult18;
+package consult16;
 
 public class Car implements Comparable<Car>{
     private String model;

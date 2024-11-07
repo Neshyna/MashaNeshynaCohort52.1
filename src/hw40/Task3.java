@@ -27,6 +27,7 @@ public class Task3 {
         for (String s : charSet){
             int firstIndex = string.indexOf(s); //>=0
             int secondIndex = string.indexOf(s, firstIndex + 1);//not unique
+            
             if (secondIndex == -1){//unique
                 return s;
             }

@@ -25,7 +25,7 @@ public class Task2 {
 
     public static Set<String> union (Set<String> set1,Set<String> set2){
 
-       Set<String> set = new TreeSet<>(set1);
+       Set<String> set = new HashSet<>(set1);
        set.addAll(set2);
 
        return set;
@@ -33,14 +33,14 @@ public class Task2 {
 
     public static Set<String> intersection(Set<String> set1,Set<String> set2){
 
-        Set<String> set = new TreeSet<>(set1);
+        Set<String> set = new HashSet<>(set1);
         set.retainAll(set2);
 
         return set;
     }
     public static Set<String> difference(Set<String> set1,Set<String> set2){
 
-        Set<String> set = new TreeSet<>(set1);
+        Set<String> set = new HashSet<>(set1);
         set.removeAll(set2);
 
         return set;
