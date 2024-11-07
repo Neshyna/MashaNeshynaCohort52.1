@@ -45,11 +45,12 @@ public class Task1 {
 
         return listWithoutDuplicates;
     }
-    public static <T> List<T> getUniqueList(List<T> list){
-        //return set, with only unique elements
-        Set<T> set = new LinkedHashSet<>(list);
-        //return new list with all set elements
-        return new ArrayList<>(set);
+
+    public static List<String> getUniqueList(List<String> listWords){
+
+        Set<String> uniqueElemList = new LinkedHashSet<>(listWords);
+
+        return new ArrayList<String>(uniqueElemList);
 
     }
 }
