@@ -24,15 +24,14 @@ removeWord(String word) — удаляет слово и все его сино�
 
     private static Map<String,List<String>> map = new HashMap<>();
 
-    /*
+
     //create initial map if needed with key and empty list
-    public static void init(List<String> words){  // list of keys
+    public static void init(List<String> words){  // list of keys or one key in parameters
 
         for (String word : words) { //for each loop in case when several keys accepted
             map.put(word, new ArrayList<>());
         }
     }
-    */
 
     public static void addSynonym(String word, String synonym){
 
@@ -41,8 +40,11 @@ removeWord(String word) — удаляет слово и все его сино�
         if (synonyms == null) {//when there is no key, crete a new map (same as at init method)
             map.put(word, new ArrayList<>());
         }
+        map.get(word).add(synonym);
+    }
 
-       map.get(word).add(synonym);
+    public static void addListSyn(String word, List<String> synonyms){
+        map.get(word).addAll(synonyms);
     }
 
     public static List<String> getSynonym(String word){

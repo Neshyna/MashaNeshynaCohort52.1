@@ -9,7 +9,11 @@ public class SynonymDictionaryMain {
 
         SynonymDictionary task3 = new SynonymDictionary();
 
-        //Task3.init(List.of("small","big")); //method to create init map, accept key with empty list
+        SynonymDictionary.init(List.of("tasty")); //method to create init map, accept key with empty list
+
+        //method to add a lot of synonyms at ones
+        List<String> listSynAll = new ArrayList<>(List.of("sweet","yummy"));
+        SynonymDictionary.addListSyn("tasty",listSynAll);
 
         //add synonyms to the map and create initial map
         SynonymDictionary.addSynonym("small","little");
