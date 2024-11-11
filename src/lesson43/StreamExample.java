@@ -57,7 +57,6 @@ public class StreamExample {
 
 //        task4();
         task5();
-
     }
 
     private static void task5() {
@@ -76,7 +75,6 @@ public class StreamExample {
                 .collect(Collectors.toList());
 
         System.out.println(catNames);
-
     }
 
     private static void task4() {
@@ -95,10 +93,6 @@ public class StreamExample {
         System.out.println(catNames);
         // Изначальная коллекция не изменяется
         //  System.out.println(cats);
-
-
-
-
     }
 
     private static void task3() {
@@ -126,13 +120,7 @@ public class StreamExample {
 
         // Повторно использовать "закрытый" поток нельзя. (Закрытый - на котором уже был вызван терминальный метод)
         // fatCats = catStream.filter(c -> c.getWeight() > 5).collect(Collectors.toList()); - будет исключение (ошибка)
-
-
-
         System.out.println(fatCats);
-
-
-
     }
 
     private static List<Cat> getListCats(){
@@ -141,7 +129,6 @@ public class StreamExample {
                 new Cat("Python", 7, "green"),
                 new Cat("Tiger", 3, "gray"),
                 new Cat("Panda", 4, "black")
-
         );
     }
 

@@ -112,8 +112,6 @@ public class FunctionalInterfaces {
         Function<String,String> combine = toUpperCase.andThen(concatenate);
         System.out.println(combine.apply("Test string"));
 
-
-
     }
 
     public static String test (String str){
