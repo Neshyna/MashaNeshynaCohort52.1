@@ -1,8 +1,6 @@
 package lesson43;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -44,11 +42,32 @@ public class StreamExample {
 
         Stream<R> map(Function<T, R> action) - преобразует элементы потока с использованием заданной функции,
         в том числе в другой тип данных
+
+        distinct() - удаляет дубликаты из потока. Сравниваем (определяет равенство) методом equals()
+
+        void peek(Consumer<T> action) - выполняет действие для каждого элемента потока
+
+        limit(long maxSize) - ограничивает кол-во элементов потока заданным значением. В потоке может быть не больше maxSize
+        skip(long n) - пропускает первые n элементов потока
+
+        mapToObj(IntFunction() mapper) - преобразование примитивного типа данных в ссылочный тип при помощи заданной функции
+
+        mapToInt - преобразует поток Stream<Integer> в IntStream (поток примитивов)
+
+        boxed() - используется для преобразования потока примитивов (IntStream, DoubleStream)
+        в поток их соответсвующий оберток (Stream<Integer>, Stream<Double)
+
          */
 
         /*
         Терминальные методы
         R collect(Collector<T, A, R> collector) - преобразует элементы потока в разные типы коллекции или другие структуры данных
+
+         void forEach(Consumer<T? action) - выполняет заданное действия для каждого элемента потока
+
+        Optional<T> min(Comparator<T> comparator) - элемент с минимальным значением в соответствии с компаратором
+        Optional<T> max(Comparator<T> comparator) - элемент с максимальным значением в соответствии с компаратором
+
          */
 
         // task1();
@@ -58,6 +77,246 @@ public class StreamExample {
 //        task4();
         task5();
     }
+
+
+    private static void task13() {
+        // Преобразовать массив примитивов в коллекцию
+        int[] ints = new int[]{1, 2, 3, 4, 5, 6};
+
+        List<Integer> integers = Arrays.stream(ints)
+//                .boxed()
+                // автоупаковка
+                .mapToObj(i -> i)
+//                .mapToObj(i -> Integer.valueOf(i))
+                .collect(Collectors.toList());
+        System.out.println(integers);
+
+        int[] intArray = integers.stream()
+                .mapToInt(i -> i)
+                .toArray();
+
+        System.out.println(Arrays.toString(intArray));
+
+    }
+
+    private static void task12() {
+        // Получить список из трех самых маленьких чисел из списка
+        List<Integer> integers = List.of(0, 5, 1, 4, 7, 55, 78);
+        // integers = List.of(10, 5);
+
+        // 0, 1, 4, 5, 7, 55, 78
+        List<Integer> smallest = integers.stream()
+                .sorted()
+                .limit(3)
+                .collect(Collectors.toList());
+
+        System.out.println("smallest: " + smallest);
+
+        // Получить список чисел, отбросив 2 самых маленьких
+        List<Integer> array = integers.stream()
+                .sorted()
+                .skip(2)
+                .collect(Collectors.toList());
+
+        System.out.println("array: " + array);
+
+        Integer[] arrayIntegers = integers.stream()
+                .toArray(Integer[]::new);
+
+    }
+
+    private static void task11() {
+        List<Cat> cats = getListCats();
+        // Верните самое длинное имя кота из списка котов
+        /*
+        Стрим Cat -> Стрим имен
+        Найти самое длинное имя
+        Сравнить имена по их длине. (max + Comparator сортирующий имена по длине в порядке возрастания)
+         */
+
+        Optional<String> longestName = cats.stream()
+                .filter(Objects::nonNull) // проверка null объектов Cat
+                .map(Cat::getName)
+                .filter(Objects::nonNull) // проверка имен Null
+                .max(Comparator.comparing(String::length));
+//                .max((n1, n2) -> Integer.compare(n1.length(), n2.length()));
+//                .max((name1, name2) -> name1.length() - name2.length());
+
+        if (longestName.isPresent()) {
+            System.out.println(longestName.get());
+        } else {
+            System.out.println("Котов с именами не найден");
+        }
+
+        String longestNullString = cats.stream()
+                .map(Cat::getName)
+                .max(Comparator.comparing(String::length))
+                .orElse(null);
+
+        System.out.println("longestNullString: " + longestNullString);
+    }
+
+    private static void task10() {
+        // min, max, Optional
+        // Optional<T> - класс обертка, который может содержать или объект типа T или null
+        // Optional<User>
+
+        List<Integer> integers = List.of(5, 4, 14, 59, 32, 24, -1, -6);
+
+        // Я хочу найти максимальное отрицательное число
+        Optional<Integer> max = integers.stream()
+                .filter(i -> i < 0)
+                .peek(System.out::println)
+                .max(Comparator.naturalOrder());
+
+        // Проверка наличия значения в Optional
+        System.out.println("max.isPresent(): " + max.isPresent()); // вернет true, если значение присутствует (там не null)
+        System.out.println("max.isEmpty(): " + max.isEmpty()); // вернет true, если значение отсутствует (там внутри null) // Java 11
+
+        if (max.isPresent()) {
+            Integer value = max.get(); // возвращает значение, если оно присутствует. Если внутри null - будет исключение NoSuchElement (ошибка).
+            System.out.println("value: " + value);
+        } else {
+            System.out.println("Завернут null");
+        }
+
+        // Возвращает значение, если оно присутствует. Если внутри null - вернет defaultValue
+        Integer optValue = max.orElse(-1000);
+        System.out.println("optValue: " + optValue);
+
+        // Создание объектов
+        Optional.empty(); // возвращает пустой Optional. (завернут null)
+        Optional.of(new Object()); // возвращает Optional с не-null значением. Если попытаемся завернуть null 0 будет NPE.
+        Optional.ofNullable(null); // возвращает Optional. Можно завернуть или значение, или null (вернет пустой Optional)
+
+
+    }
+
+    private static Optional<Cat> findCat(String name) {
+        List<Cat> cats = getListCats();
+
+        for (Cat cat : cats) {
+            if (cat.getName().equals(name)) {
+                return Optional.of(cat);
+            }
+        }
+
+        return Optional.empty();
+    }
+
+    // Использование Optional типом возвращаемого значения
+    private static Optional<Cat> findCat2(String name) {
+        List<Cat> cats = getListCats();
+
+        Cat result = null;
+        for (Cat cat : cats) {
+            if (cat.getName().equals(name)) {
+                result = cat;
+            }
+        }
+        return Optional.ofNullable(result);
+    }
+
+    private static Cat findCat4(String name) {
+        List<Cat> cats = getListCats();
+
+        for (Cat cat : cats) {
+            if (cat.getName().equals(name)) {
+                return cat;
+            }
+        }
+
+        return null;
+    }
+
+    private static void task9() {
+        // Создание стрима map
+        Map<String, Integer> map = new HashMap<>();
+        map.put("Apple", 1);
+        map.put("Banana", 5);
+        map.put("Cherry", 0);
+
+        // Создание стрима из элементов entrySet
+        map.entrySet().stream()
+                .filter(entry -> entry.getValue() > 0)
+                .forEach(entry -> System.out.println(entry.getKey() + ": " + entry.getValue()));
+    }
+
+    private static void task8() {
+        // Мультикурсор Alt + Shift + click | Mac Opt + Shift + click
+        Cat cat = new Cat("Bear", 5, "braun");
+        Cat cat1 = new Cat("Python", 7, "green");
+        Cat cat2 = new Cat("Tiger", 3, "gray");
+        Cat cat3 = new Cat("Panda", 4, "black");
+
+        Cat[] cats = new Cat[]{cat, cat1, null, cat2, cat3, new Cat(null, 10, "red")};
+
+        // Получить список кошек, вес которых больше 4
+
+
+        // получить поток из элементов массива
+        List<Cat> bigCats = Arrays.stream(cats)
+//                .filter(c -> c != null) // оставить только не null
+//                .filter(c -> Objects.nonNull(c)) // оставить только ne null
+                .filter(Objects::nonNull)
+                .filter(c -> Objects.nonNull(c.getName())) // проверка какого-то поля на null (для примера)
+                .filter(c -> c.getWeight() > 4)
+                .collect(Collectors.toList());
+
+        System.out.println(bigCats);
+
+    }
+
+    private static void task7() {
+        // Изменить имя котиков, вес которых меньше 5
+        // Вывести в консоль все элементы потока
+
+        List<Cat> cats = getListCats();
+
+        Stream<Cat> catStream = cats.stream()
+                .filter(cat -> cat.getWeight() < 5) // фильтруем котиков
+                .peek(cat -> cat.setName("Slim_" + cat.getName())) // промежуточный метод, выполняет действие для каждого элемента
+                .peek(System.out::println);
+
+
+        catStream.forEach(cat -> System.out.println(cat)); // терминальный метод, выполняет действие для каждого элемента
+//        catStream.forEach(System.out::println);
+        System.out.println("cats: " + cats);
+
+    }
+
+    private static void task6() {
+        // Получить список имен кошек, у которых имена короче 5 символов
+        List<Cat> cats = getListCats();
+
+        List<String> catNames = cats.stream()
+                .filter(cat -> cat.getName().length() < 5)
+                .map(cat -> cat.getName())
+                .collect(Collectors.toList());
+        System.out.println(catNames);
+
+        /*
+        Эффективность: имена извлекаются у всех объектов Car, даже у тех,
+        которые позже будут отфильтрованы.
+         */
+
+        System.out.println("\n =================== \n");
+
+        List<String> catNames2 = cats.stream()
+                // .map(cat -> cat.getName()) // тоже самое
+                .map(Cat::getName)
+                .filter(name -> name.length() < 6)
+                .collect(Collectors.toList());
+        System.out.println(catNames2);
+
+        /*
+        Читаемость, понимание кода
+         */
+
+
+    }
+
+
 
     private static void task5() {
         // Получить список имен кошек, чей вес больше 4

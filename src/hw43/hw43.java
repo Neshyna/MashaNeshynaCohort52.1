@@ -70,6 +70,7 @@ Task 3
         CharSequence a = "a";
         List<String> newStrings = strings.stream()
                 .filter(string -> string.contains(a))
+                //.filter(string -> string.startsWith("a"))
                 .sorted()
                 .distinct()//delete duplicate
                 .collect(Collectors.toList());
@@ -85,6 +86,7 @@ Task 3
                 .filter(person -> person.getAge() > 25)
                 .filter(person -> person.getCity().equals("Berlin"))
                 .map(person -> person.toString())
+               // .map(person -> person.getName())
                 .collect(Collectors.toList());
 
         System.out.println(newPersons);
