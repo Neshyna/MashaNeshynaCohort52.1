@@ -97,6 +97,13 @@ Task 4 Опционально
                 return Optional.of(user);
 
         return Optional.empty();
+
+
+        /*Optional<User> user = users.stream()
+                .filter()
+                .peek(System.out::println)
+                .findFirst()
+                */
     }
 
 }

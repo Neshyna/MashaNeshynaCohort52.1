@@ -253,7 +253,6 @@ public class StreamExample {
 
         // Получить список кошек, вес которых больше 4
 
-
         // получить поток из элементов массива
         List<Cat> bigCats = Arrays.stream(cats)
 //                .filter(c -> c != null) // оставить только не null
@@ -313,10 +312,7 @@ public class StreamExample {
         Читаемость, понимание кода
          */
 
-
     }
-
-
 
     private static void task5() {
         // Получить список имен кошек, чей вес больше 4
