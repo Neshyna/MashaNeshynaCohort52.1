@@ -35,5 +35,27 @@ public class PasswordValidator {
             if (!isLowerCase) throw new PasswordValidateException("lowercase error");
             if (!isSpecialSymbol) throw new PasswordValidateException("special symbol error");
 
+
+            /*
+             String errorMessage = "Errors! should be a: ";
+        int initLength = errorMessage.length();
+
+
+       // errorMessage += "Dtr"; // -> errorMessage = errorMessage + "Dtr;"
+       //  int x = 10;
+       // x -= 5; // x = x - 5;
+
+        if (!isDigit) errorMessage += "digit in password; "; // "Errors! should be a: digit in password; "
+        if (!isLowerCase) errorMessage += "lower case letter in password; "; // "Errors! should be a: digit in password; lower case letter in password;"
+        if (!isUpperCase) errorMessage += "upper case letter in password; "; // "Errors! should be a: upper case letter in password; "
+        if (!isSpecialSymbol) errorMessage += "special symbol in password; "; // "Errors! should be a: digit in password; lower case letter in password; special symbol in password;"
+
+        // Несколько вариантов проверить, прошел ли пароль валидацию
+//        if (errorMessage.length() > initLength) throw new PasswordValidateException(errorMessage);
+
+        // Проверяем, если хотя бы в одной из переменных окажется false, то пароль не прошел валидацию. Бросаем исключение.
+        if (!(isDigit && isUpperCase && isLowerCase && isSpecialSymbol)) throw new PasswordValidateException(errorMessage);
+
+             */
         }
     }
